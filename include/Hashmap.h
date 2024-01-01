@@ -1,42 +1,38 @@
 #ifndef Hashmap_H
 #define Hashmap_H
 
+#include <array>
+#include <functional>
+#include <iostream>
+#include <string>
 #include <vector>
 
-/// @brief A simple hashmap implementation
-/// @tparam Key
-/// @tparam Value
 template <typename Key, typename Value>
 class Hashmap {
+    std::size_t getBucketIndex(const Key &key) {
+        std::hash<Key> hashFunction;
+        std::size_t hashCode = hashFunction(key);
+        return hashCode % 10;
+    }
+
     struct Pair {
         Key key;
         Value value;
     };
 
-    std::vector<Pair> pairs;
+    std::array<std::vector<Pair>, 11> buckets = {};
 
   public:
-    /// @brief Add a key-value pair to the hashmap
-    /// @tparam K
-    /// @tparam V
-    /// @param key
-    /// @param value
-    template <typename K, typename V>
-    void add(K key, V value) {
+    void add(Key key, Value value) {
         Pair pair;
         pair.key = key;
         pair.value = value;
 
-        pairs.push_back(pair);
+        buckets[getBucketIndex(key)].push_back(pair);
     }
 
-    /// @brief Get the value associated with a key
-    /// @tparam K
-    /// @param key
-    /// @return Value
-    template <typename K>
-    Value get(K key) {
-        for (auto pair : pairs) {
+    Value get(Key key) {
+        for (const Pair &pair : buckets[getBucketIndex(key)]) {
             if (pair.key == key) {
                 return pair.value;
             }
@@ -45,14 +41,12 @@ class Hashmap {
         return Value();
     }
 
-    /// @brief Remove a key-value pair
-    /// @tparam K
-    /// @param key
-    template <typename K>
-    void remove(K key) {
-        for (int i = 0; i < pairs.size(); i++) {
-            if (pairs[i].key == key) {
-                pairs.erase(pairs.begin() + i);
+    void remove(const Key &key) {
+        std::vector<Pair> &bucket = buckets[getBucketIndex(key)];
+
+        for (auto it = bucket.begin(); it != bucket.end(); ++it) {
+            if (it->key == key) {
+                it = bucket.erase(it);
                 break;
             }
         }
