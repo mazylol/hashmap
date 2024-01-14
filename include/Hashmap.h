@@ -1,7 +1,6 @@
 #ifndef Hashmap_H
 #define Hashmap_H
 
-#include <array>
 #include <functional>
 #include <iostream>
 #include <string>
@@ -9,6 +8,7 @@
 
 template <typename Key, typename Value>
 class Hashmap {
+  private:
     std::size_t getBucketIndex(const Key &key) {
         std::hash<Key> hashFunction;
         std::size_t hashCode = hashFunction(key);
@@ -20,15 +20,19 @@ class Hashmap {
         Value value;
     };
 
-    std::array<std::vector<Pair>, 11> buckets = {};
+    std::vector<std::vector<Pair>> buckets = {};
 
   public:
+    Hashmap() {
+        buckets.resize(10);
+    }
+
     void add(Key key, Value value) {
         Pair pair;
         pair.key = key;
         pair.value = value;
 
-        buckets[getBucketIndex(key)].push_back(pair);
+        buckets.at(getBucketIndex((key))).push_back(pair);
     }
 
     Value get(Key key) {
