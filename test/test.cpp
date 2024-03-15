@@ -7,7 +7,7 @@
 
 #include <Hashmap.h>
 
-std::vector<std::string> load_lines(std::string file) {
+std::vector<std::string> load_lines(const std::string& file) {
     std::ifstream f(file);
 
     std::vector<std::string> lines;
@@ -22,11 +22,11 @@ std::vector<std::string> load_lines(std::string file) {
 
 int main() {
     auto keys = load_lines("keys.txt");
-    auto values_unconv = load_lines("values.txt");
+    auto valuesUnconverted = load_lines("values.txt");
 
     std::vector<int> values = {};
 
-    for (const std::string value : values_unconv) {
+    for (const std::string& value : valuesUnconverted) {
         values.push_back(stoi(value));
     }
 
@@ -35,11 +35,11 @@ int main() {
     for (int i = 0; i < keys.size(); i++) {
         my_map.add(keys[i], values[i]);
     }
-    for (int i = 0; i < keys.size(); i++) {
-        std::cout << my_map.get(keys[i]) << std::endl;
+    for (const auto & key : keys) {
+        std::cout << my_map.get(key) << std::endl;
     }
-    for (int i = 0; i < keys.size(); i++) {
-        my_map.remove(keys[i]);
+    for (const auto & key : keys) {
+        my_map.remove(key);
     }
     auto stop_my = std::chrono::system_clock::now();
     auto duration_my = std::chrono::duration_cast<std::chrono::microseconds>(stop_my - start_my);
@@ -50,11 +50,11 @@ int main() {
     for (int i = 0; i < keys.size(); i++) {
         proper_map[keys[i]] = values[i];
     }
-    for (int i = 0; i < keys.size(); i++) {
-        std::cout << proper_map[keys[i]] << std::endl;
+    for (const auto & key : keys) {
+        std::cout << proper_map[key] << std::endl;
     }
-    for (int i = 0; i < keys.size(); i++) {
-        proper_map.erase(keys[i]);
+    for (const auto & key : keys) {
+        proper_map.erase(key);
     }
     auto stop_proper = std::chrono::system_clock::now();
     auto duration_proper = std::chrono::duration_cast<std::chrono::microseconds>(stop_proper - start_proper);

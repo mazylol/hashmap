@@ -1,2 +1,6 @@
 build/
+<<<<<<< HEAD
 .cache
+=======
+cmake-build-debug/
+>>>>>>> 2514cbff9a2d3ed5ca01919d89dda350c9d9a736
