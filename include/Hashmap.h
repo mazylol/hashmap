@@ -1,7 +1,6 @@
 #ifndef Hashmap_H
 #define Hashmap_H
 
-#include <functional>
 #include <vector>
 
 template <typename Key, typename Value>
