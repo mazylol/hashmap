@@ -21,8 +21,8 @@ std::vector<std::string> load_lines(const std::string& file) {
 }
 
 int main() {
-    auto keys = load_lines("keys.txt");
-    auto valuesUnconverted = load_lines("values.txt");
+    auto keys = load_lines("keys-tmp.txt");
+    auto valuesUnconverted = load_lines("values-tmp.txt");
 
     std::vector<int> values = {};
 

@@ -7,9 +7,8 @@ template <typename Key, typename Value>
 class Hashmap {
   private:
     std::size_t getBucketIndex(const Key &key) {
-        std::hash<Key> hashFunction;
-        std::size_t hashCode = hashFunction(key);
-        return hashCode % 10;
+        std::size_t key_hash = std::hash<Key>{}(key);
+        return key_hash % 10;
     }
 
     struct Pair {
